@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎰 WILD LAS VEGAS 🎰 | Triple 7's</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --casino-red: #B9121B;
+            --casino-gold: #D4AF37;
+            --casino-cream: #F8F1E5;
+            --casino-dark: #1A1A1A;
+            --casino-green: #01796F;
+            --casino-purple: #4B0082;
+            --neon-glow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px currentColor, 0 0 20px currentColor;
+            --matrix-blue: #00BFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: linear-gradient(to bottom, #0D1F3E, #0A1526);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        .vegas-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 20%);
+            z-index: -2;
+        }
+
+        .vegas-lights {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background-image: 
+                linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+            animation: light-sweep 8s infinite linear;
+        }
+
+        @keyframes light-sweep {
+            0% { transform: translateX(-100%) skewX(-45deg); }
+            100% { transform: translateX(200%) skewX(-45deg); }
+        }
+        
+        /* New Matrix and Gold Particle Effects */
+        .matrix-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            pointer-events: none;
+            z-index: -3;
+            animation: matrix-fade 5s infinite;
+        }
+
+        @keyframes matrix-fade {
+            0% { opacity: 0.1; }
+            50% { opacity: 0.15; }
+            100% { opacity: 0.1; }
+        }
+
+        .gold-particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .gold-particle {
+            position: absolute;
+            background: var(--casino-gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: move-particle 2s forwards;
+            filter: blur(2px);
+        }
+
+        @keyframes move-particle {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--x), var(--y)) scale(0.5);
+            }
+        }
+        
+        .casino-container {
+            width: 100%;
+            max-width: 1000px;
+            position: relative;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--casino-gold);
+            animation: border-glow 2s infinite alternate;
+        }
+
+        @keyframes border-glow {
+            from { box-shadow: 0 0 20px var(--casino-gold); }
+            to { box-shadow: 0 0 40px var(--casino-gold); }
+        }
+
+        .casino-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--casino-gold);
+        }
+
+        .casino-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--casino-gold);
+            text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            margin-bottom: 10px;
+        }
+
+        .casino-header p {
+            font-size: 1.2rem;
+            color: var(--casino-cream);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .casino-header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 25%;
+            width: 50%;
+            height: 4px;
+            background: var(--casino-red);
+        }
+
+        .marquee {
+            background: linear-gradient(90deg, #B9121B, #8B0000, #B9121B);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 10px rgba(185, 18, 27, 0.5);
+            border: 1px solid var(--casino-gold);
+        }
+
+        .marquee-content {
+            display: flex;
+            animation: marquee 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .marquee-item {
+            padding: 0 20px;
+            font-weight: 700;
+            color: var(--casino-gold);
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .machine-container {
+            background: linear-gradient(135deg, #2A2A3C 0%, #1A1A2A 100%);
+            border: 3px solid var(--casino-gold);
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            perspective: 1000px;
+        }
+
+        .machine-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.05"><rect fill="%23D4AF37" x="0" y="0" width="100" height="100"/></svg>');
+            z-index: 0;
+        }
+
+        .stats-panel {
+            display: flex;
+            justify-content: space-between;
+            background: linear-gradient(to right, #0D1F3E, #1A3D5F);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid var(--casino-gold);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .credit-display, .bet-display, .win-display, .jackpot-display {
+            font-family: 'Lato', sans-serif;
+            font-size: 1.5rem;
+            color: var(--casino-cream);
+            text-shadow: 1px 1px 2px #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .credit-display span, .bet-display span, .win-display span, .jackpot-display span {
+            font-size: 0.9rem;
+            color: var(--casino-gold);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .slots-container {
+            display: flex;
+            justify-content: space-around;
+            background: linear-gradient(to bottom, #111126, #090917);
+            padding: 25px 10px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--casino-gold);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .slots-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%);
+            z-index: 0;
+        }
+
+        .slot {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #2A2A2A 0%, #1A1A1A 100%);
+            border: 2px solid var(--casino-gold);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+            z-index: 1;
+            transform: rotateY(0deg);
+            transform-style: preserve-3d;
+        }
+        
+        .slot.spin-effect {
+            animation: spin-3d 0.1s linear infinite;
+        }
+        
+        @keyframes spin-3d {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+
+        .slot::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .slot.win {
+            animation: win-blink 0.5s infinite alternate;
+            box-shadow: 0 0 20px var(--casino-gold);
+        }
+
+        @keyframes win-blink {
+            from { background: linear-gradient(135deg, #2A2A2A 0%, #1A1A1A 100%); }
+            to { background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%); }
+        }
+
+        .slot-divider {
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, var(--casino-gold), transparent);
+            margin: 0 5px;
+        }
+
+        .controls-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .bet-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bet-btn {
+            background: linear-gradient(to bottom, #8B0000, #600000);
+            border: 2px solid #FFD700;
+            color: white;
+            font-family: 'Lato', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(1);
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .bet-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            animation: none;
+        }
+
+        .bet-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .bet-amount {
+            font-family: 'Lato', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--casino-gold);
+            min-width: 70px;
+            text-align: center;
+            text-shadow: 1px 1px 2px #000;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--casino-gold);
+            animation: text-glow 2s infinite;
+        }
+
+        @keyframes text-glow {
+            0% { text-shadow: 0 0 5px var(--casino-gold); }
+            50% { text-shadow: 0 0 10px var(--casino-gold), 0 0 15px var(--casino-gold); }
+            100% { text-shadow: 0 0 5px var(--casino-gold); }
+        }
+
+        .lever-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .casino-lever {
+            background: linear-gradient(to bottom, #8B0000, #600000);
+            width: 70px;
+            height: 200px;
+            border: 3px solid #330000;
+            border-radius: 35px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            -webkit-tap-highlight-color: transparent; /* Evita el resaltado azul en móvil */
+            transform-origin: bottom center;
+        }
+
+        .casino-lever::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            height: 50px;
+            background: linear-gradient(to bottom, #FFD700, #B8860B);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            animation: handle-glow 2s infinite alternate;
+        }
+        
+        @keyframes handle-glow {
+            from { box-shadow: 0 0 5px var(--casino-gold); }
+            to { box-shadow: 0 0 15px var(--casino-gold); }
+        }
+
+        .casino-lever.pulled {
+            transform: rotateX(20deg) scaleY(0.9);
+        }
+
+        .casino-lever.pulled::before {
+            top: 140px;
+            animation: none;
+        }
+
+        .casino-lever:hover::before {
+            box-shadow: 0 0 15px var(--casino-gold);
+            animation: none;
+        }
+
+        .message-display {
+            background: linear-gradient(to right, #0D1F3E, #1A3D5F);
+            border: 2px solid var(--casino-gold);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 25px;
+            text-align: center;
+            font-family: 'Lato', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--casino-cream);
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            text-shadow: 1px 1px 2px #000;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+            transform: scale(1);
+        }
+        
+        .message-display.win-animation {
+            animation: win-pulse 0.5s infinite alternate, scale-up 0.3s forwards;
+            background: linear-gradient(to right, #01796F, #01574E);
+            color: white;
+        }
+
+        @keyframes win-pulse {
+            from { box-shadow: 0 0 10px #01796F; }
+            to { box-shadow: 0 0 30px #01796F, 0 0 50px #01796F; }
+        }
+        
+        @keyframes scale-up {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        .lines-panel {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .line-btn {
+            background: linear-gradient(to bottom, #8B0000, #600000);
+            border: 1px solid #FFD700;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .line-btn.active {
+            background: linear-gradient(to bottom, #FFD700, #B8860B);
+            color: #000;
+            box-shadow: 0 0 15px var(--casino-gold);
+        }
+
+        .line-btn:hover:not(.active) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .paytable-panel {
+            background: linear-gradient(to right, #0D1F3E, #1A3D5F);
+            border: 2px solid var(--casino-gold);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .paytable-panel h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--casino-gold);
+            text-align: center;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px #000;
+            font-size: 1.8rem;
+            border-bottom: 1px solid var(--casino-gold);
+            padding-bottom: 10px;
+        }
+
+        .paytable-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            padding: 5px 0;
+            border-bottom: 1px dashed rgba(212, 175, 55, 0.3);
+        }
+
+        .paytable-symbols {
+            color: var(--casino-cream);
+            font-weight: 700;
+        }
+
+        .paytable-value {
+            color: var(--casino-gold);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .toggle-paytable {
+            background: linear-gradient(to bottom, #8B0000, #600000);
+            border: 2px solid #FFD700;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            margin: 20px auto;
+            display: block;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .toggle-paytable:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .win-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, var(--casino-gold), transparent);
+            height: 4px;
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--casino-gold);
+            z-index: 5;
+            display: none;
+            animation: line-glow 1s infinite alternate;
+        }
+        
+        @keyframes line-glow {
+            from { box-shadow: 0 0 5px var(--casino-gold); }
+            to { box-shadow: 0 0 20px var(--casino-gold); }
+        }
+
+        .win-line-1 {
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0;
+            width: 100%;
+        }
+        .win-line-2 {
+            top: 25%;
+            transform: translateY(-50%);
+            left: 0;
+            width: 100%;
+        }
+        .win-line-3 {
+            top: 75%;
+            transform: translateY(-50%);
+            left: 0;
+            width: 100%;
+        }
+        .win-line-4 {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            left: 0;
+            width: 100%;
+        }
+        .win-line-5 {
+            top: 50%;
+            transform: translateY(-50%) rotate(-45deg);
+            left: 0;
+            width: 100%;
+        }
+
+        .jackpot-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .jackpot-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 6rem;
+            color: var(--casino-gold);
+            text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            animation: jackpot-pulse 1s infinite alternate;
+        }
+
+        @keyframes jackpot-pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        .auto-spin-panel {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .auto-spin-btn {
+            background: linear-gradient(to bottom, #4B0082, #32005c);
+            border: 2px solid #9370DB;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .auto-spin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .auto-spin-btn.active {
+            background: linear-gradient(to bottom, #9370DB, #6A5ACD);
+            color: white;
+            box-shadow: 0 0 15px #9370DB;
+        }
+
+        .info-panel {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--casino-gold);
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            color: var(--casino-cream);
+        }
+
+        .info-panel:hover {
+            opacity: 1;
+        }
+
+        .casino-chips {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .chip {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+            border: 2px solid white;
+            animation: chip-float 4s infinite alternate;
+        }
+        
+        @keyframes chip-float {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-5px); }
+        }
+
+        .chip.red { background: linear-gradient(135deg, #B9121B, #8C001A); }
+        .chip.blue { background: linear-gradient(135deg, #1E90FF, #0066CC); }
+        .chip.green { background: linear-gradient(135deg, #01796F, #01574E); }
+        .chip.black { background: linear-gradient(135deg, #444444, #000000); }
+
+        /* Efectos de neón para títulos */
+        .neon-red {
+            color: #FF3131;
+            text-shadow: 0 0 5px #FF3131, 0 0 10px #FF3131, 0 0 20px #FF3131, 0 0 40px #FF3131;
+        }
+
+        .neon-blue {
+            color: #00BFFF;
+            text-shadow: 0 0 5px #00BFFF, 0 0 10px #00BFFF, 0 0 20px #00BFFF, 0 0 40px #00BFFF;
+        }
+
+        .neon-purple {
+            color: #BF00FF;
+            text-shadow: 0 0 5px #BF00FF, 0 0 10px #BF00FF, 0 0 20px #BF00FF, 0 0 40px #BF00FF;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            .casino-container {
+                max-width: 700px;
+            }
+            
+            .slot {
+                width: 90px;
+                height: 90px;
+                font-size: 3rem;
+            }
+            
+            .casino-header h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .casino-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .slot {
+                width: 80px;
+                height: 80px;
+                font-size: 2.5rem;
+            }
+            
+            .credit-display, .bet-display, .win-display, .jackpot-display {
+                font-size: 1.2rem;
+            }
+            
+            .lines-panel {
+                gap: 5px;
+            }
+            
+            .line-btn {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .machine-container {
+                padding: 20px;
+            }
+            
+            .stats-panel {
+                flex-direction: row;
+                padding: 10px 15px;
+            }
+            
+            .casino-lever {
+                width: 60px;
+                height: 180px;
+            }
+            
+            .casino-lever.pulled::before {
+                top: 130px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .casino-header h1 {
+                font-size: 2rem;
+            }
+            
+            .machine-container {
+                padding: 15px;
+            }
+            
+            .stats-panel {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+            
+            .slots-container {
+                padding: 15px 5px;
+            }
+            
+            .slot {
+                width: 70px;
+                height: 70px;
+                font-size: 2.2rem;
+            }
+            
+            .slot-divider {
+                margin: 0 3px;
+            }
+            
+            .lines-panel {
+                justify-content: space-around;
+            }
+            
+            .line-btn {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+            
+            .casino-lever {
+                width: 50px;
+                height: 160px;
+            }
+            
+            .casino-lever::before {
+                height: 40px;
+            }
+            
+            .casino-lever.pulled::before {
+                top: 120px;
+            }
+            
+            .message-display {
+                font-size: 1rem;
+                padding: 10px;
+                min-height: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .casino-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .casino-header p {
+                font-size: 1rem;
+            }
+            
+            .slot {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+            
+            .casino-lever {
+                width: 45px;
+                height: 140px;
+            }
+            
+            .casino-lever::before {
+                height: 35px;
+                left: 8px;
+                right: 8px;
+            }
+            
+            .casino-lever.pulled::before {
+                top: 105px;
+            }
+            
+            .bet-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .bet-amount {
+                font-size: 1.5rem;
+            }
+            
+            .credit-display, .bet-display, .win-display, .jackpot-display {
+                font-size: 1rem;
+            }
+            
+            .line-btn {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .casino-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .slot {
+                width: 50px;
+                height: 50px;
+                font-size: 1.8rem;
+            }
+            
+            .slots-container {
+                padding: 10px 2px;
+            }
+            
+            .machine-container {
+                padding: 10px;
+            }
+        }
+
+        @media (max-height: 600px) and (orientation: landscape) {
+            body {
+                padding: 10px;
+            }
+            
+            .casino-container {
+                max-width: 100%;
+            }
+            
+            .casino-header {
+                margin-bottom: 15px;
+            }
+            
+            .casino-header h1 {
+                font-size: 2rem;
+            }
+            
+            .machine-container {
+                padding: 15px;
+            }
+            
+            .stats-panel {
+                margin-bottom: 15px;
+                padding: 10px;
+            }
+            
+            .slots-container {
+                margin-bottom: 15px;
+                padding: 15px 5px;
+            }
+            
+            .slot {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .controls-panel {
+                gap: 10px;
+            }
+            
+            .casino-lever {
+                width: 40px;
+                height: 120px;
+            }
+            
+            .casino-lever.pulled::before {
+                top: 90px;
+            }
+            
+            .message-display {
+                margin-top: 15px;
+                min-height: 50px;
+                padding: 10px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="vegas-background"></div>
+    <canvas id="matrix-canvas" class="matrix-effect"></canvas>
+    <div class="vegas-lights"></div>
+    <div id="gold-particles" class="gold-particles-container"></div>
+
+    <div class="jackpot-animation" id="jackpot-animation">
+        <div class="jackpot-text">¡JACKPOT!</div>
+    </div>
+
+    <div class="casino-chips">
+        <div class="chip red">25</div>
+        <div class="chip green">50</div>
+        <div class="chip blue">100</div>
+        <div class="chip black">500</div>
+    </div>
+
+    <div class="casino-container">
+        <div class="casino-header">
+            <h1>🎰 Cactus Lucky 🎰</h1>
+            <p>Gira los carretes y desata la fortuna.</p>
+        </div>
+
+        <div class="marquee">
+            <div class="marquee-content">
+    <div class="marquee-item"><span class="neon-red">¡GANA 10,000 CRÉDITOS!</span></div>
+    <div class="marquee-item"><span class="neon-blue">BONUS: 3 sietes pagan 500 créditos!</span></div>
+    <div class="marquee-item"><span class="neon-purple">¡APUESTA MÁXIMA PARA MÁXIMAS GANANCIAS!</span></div>
+    <div class="marquee-item"><span class="neon-red">¡GANA HASTA 1,000X TU APUESTA!</span></div>
+    <!-- Nuevos textos agregados -->
+    <div class="marquee-item"><span class="neon-pink">¡BONUS DE BIENVENIDA 100%!</span></div>
+    <div class="marquee-item"><span class="neon-orange">¡TURBO SPIN: DOBLE DE VELOCIDAD!</span></div>
+    <div class="marquee-item"><span class="neon-cyan">¡7 BARRAS = ¡BONUS ACTIVADO!</span></div>
+    <div class="marquee-item"><span class="neon-red">¡RECARGA Y OBTÉN 50 GIROS EXTRA!</span></div>
+    <div class="marquee-item"><span class="neon-blue">¡TODOS LOS GANADORES GIRAN MÁXIMO!</span></div>
+    <div class="marquee-item"><span class="neon-purple">¡OFERTA RELÁMPAGO: 2X CRÉDITOS!</span></div>
+    <div class="marquee-item"><span class="neon-green">¡NUEVO JUEGO: FORTUNA AZTECA!</span></div>
+    <div class="marquee-item"><span class="neon-yellow">¡VIP: ACCESO A TORNEOS EXCLUSIVOS!</span></div>
+    <div class="marquee-item"><span class="neon-pink">¡SÍMBOLO WILD X5 MULTIPLICADOR!</span></div>
+    <div class="marquee-item"><span class="neon-orange">¡GANA VIAJES Y PREMIOS EN EFECTIVO!</span></div>
+    <div class="marquee-item"><span class="neon-cyan">¡JUEGA CON RESPONSABILIDAD!</span></div>
+    <div class="marquee-item"><span class="neon-red">¡MISIÓN DIARIA: GIRA Y GANA RECOMPENSAS!</span></div>
+    <div class="marquee-item"><span class="neon-blue">¡TABLA DE CLASIFICACIÓN: COMPITE Y GANA!</span></div>
+</div>
+        </div>
+
+        <div class="machine-container">
+            <div class="stats-panel">
+                <div class="credit-display"><span>CRÉDITOS</span> <span id="credits">1000</span></div>
+                <div class="bet-display"><span>APUESTA</span> <span id="bet-amount">10</span></div>
+                <div class="win-display"><span>GANANCIA</span> <span id="last-win">0</span></div>
+                <div class="jackpot-display"><span>JACKPOT</span> <span id="jackpot">10000</span></div>
+            </div>
+
+            <div class="lines-panel">
+                <div class="line-btn active" data-line="1">LÍNEA 1</div>
+                <div class="line-btn" data-line="2">LÍNEA 2</div>
+                <div class="line-btn" data-line="3">LÍNEA 3</div>
+                <div class="line-btn" data-line="4">LÍNEA 4</div>
+                <div class="line-btn" data-line="5">LÍNEA 5</div>
+            </div>
+
+            <div class="slots-container">
+                <div class="win-line win-line-1" id="win-line-1"></div>
+                <div class="win-line win-line-2" id="win-line-2"></div>
+                <div class="win-line win-line-3" id="win-line-3"></div>
+                <div class="win-line win-line-4" id="win-line-4"></div>
+                <div class="win-line win-line-5" id="win-line-5"></div>
+                <div class="slot" id="slot1">🍒</div>
+                <div class="slot-divider"></div>
+                <div class="slot" id="slot2">🍒</div>
+                <div class="slot-divider"></div>
+                <div class="slot" id="slot3">🍒</div>
+                <div class="slot-divider"></div>
+                <div class="slot" id="slot4">🍒</div>
+            </div>
+
+            <div class="controls-panel">
+                <div class="bet-controls">
+                    <button class="bet-btn" id="bet-down">-</button>
+                    <div class="bet-amount" id="bet-value">10</div>
+                    <button class="bet-btn" id="bet-up">+</button>
+                </div>
+
+                <div class="lever-container">
+                    <div class="casino-lever" id="lever"></div>
+                </div>
+
+                <div class="auto-spin-panel">
+                    <button class="auto-spin-btn" id="auto-spin-5">AUTO x5</button>
+                    <button class="auto-spin-btn" id="auto-spin-10">AUTO x10</button>
+                    <button class="auto-spin-btn" id="auto-spin-25">AUTO x25</button>
+                </div>
+
+                <div class="message-display" id="message">
+                    ¡TIRA DE LA PALANCA PARA JUGAR Y GANAR!
+                </div>
+            </div>
+
+            <button class="toggle-paytable" id="toggle-paytable">VER TABLA DE PAGOS</button>
+            
+            <div class="paytable-panel" id="paytable-panel">
+                <h3>TABLA DE PAGOS</h3>
+                <div class="paytable-item">
+                    <span class="paytable-symbols">💎💎💎💎</span>
+                    <span class="paytable-value">x1000 + Jackpot</span>
+                </div>
+                <div class="paytable-item">
+                    <span class="paytable-symbols">⑦⑦⑦⑦</span>
+                    <span class="paytable-value">x500</span>
+                </div>
+                <div class="paytable-item">
+                    <span class="paytable-symbols">🔔🔔🔔🔔</span>
+                    <span class="paytable-value">x300</span>
+                </div>
+                <div class="paytable-item">
+                    <span class="paytable-symbols">🍇🍇🍇🍇</span>
+                    <span class="paytable-value">x200</span>
+                </div>
+                <div class="paytable-item">
+                    <span class="paytable-symbols">🍋🍋🍋🍋</span>
+                    <span class="paytable-value">x100</span>
+                </div>
+                <div class="paytable-item">
+                    <span class="paytable-symbols">🍒🍒🍒🍒</span>
+                    <span class="paytable-value">x50</span>
+                </div>
+                <div class="paytable-item">
+                    <span class="paytable-symbols">💎💎💎</span>
+                    <span class="paytable-value">x50</span>
+                </div>
+                <div class="paytable-item">
+                    <span class="paytable-symbols">⑦⑦⑦</span>
+                    <span class="paytable-value">x25</span>
+                </div>
+                <div class="paytable-item">
+                    <span class="paytable-symbols">🔔🔔🔔</span>
+                    <span class="paytable-value">x20</span>
+                </div>
+                <div class="paytable-item">
+                    <span class="paytable-symbols">🍇🍇🍇</span>
+                    <span class="paytable-value">x15</span>
+                </div>
+                <div class="paytable-item">
+                    <span class="paytable-symbols">🍋🍋🍋</span>
+                    <span class="paytable-value">x10</span>
+                </div>
+                <div class="paytable-item">
+                    <span class="paytable-symbols">🍒🍒🍒</span>
+                    <span class="paytable-value">x5</span>
+                </div>
+                <div class="paytable-item">
+                    <span class="paytable-symbols">💎💎</span>
+                    <span class="paytable-value">x3</span>
+                </div>
+                <div class="paytable-item">
+                    <span class="paytable-symbols">⑦⑦</span>
+                    <span class="paytable-value">x2</span>
+                </div>
+                <div class="paytable-item">
+                    <span class="paytable-symbols">🔔🔔</span>
+                    <span class="paytable-value">x2</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-panel">
+        <p>JUEGO DE SIMULACIÓN - SIN APUESTA REAL</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos del DOM
+            const creditsDisplay = document.getElementById('credits');
+            const betDisplay = document.getElementById('bet-amount');
+            const betValue = document.getElementById('bet-value');
+            const lastWinDisplay = document.getElementById('last-win');
+            const messageDisplay = document.getElementById('message');
+            const lever = document.getElementById('lever');
+            const slots = [
+                document.getElementById('slot1'),
+                document.getElementById('slot2'),
+                document.getElementById('slot3'),
+                document.getElementById('slot4')
+            ];
+            const betDownBtn = document.getElementById('bet-down');
+            const betUpBtn = document.getElementById('bet-up');
+            const paytableToggle = document.getElementById('toggle-paytable');
+            const paytablePanel = document.getElementById('paytable-panel');
+            const winLines = document.querySelectorAll('.win-line');
+            const jackpotAnimation = document.getElementById('jackpot-animation');
+            const autoSpin5Btn = document.getElementById('auto-spin-5');
+            const autoSpin10Btn = document.getElementById('auto-spin-10');
+            const autoSpin25Btn = document.getElementById('auto-spin-25');
+            const lineButtons = document.querySelectorAll('.line-btn');
+            const jackpotDisplay = document.getElementById('jackpot');
+            const matrixCanvas = document.getElementById('matrix-canvas');
+            const goldParticlesContainer = document.getElementById('gold-particles');
+
+            // Variables del juego
+            let credits = 1000;
+            let betAmount = 10;
+            let lastWin = 0;
+            let isSpinning = false;
+            let autoSpinCount = -1;
+            let activeLines = [1];
+            let jackpot = 10000;
+            const jackpotPercentage = 0.01;
+
+            // Símbolos y sus pesos
+            const symbols = [
+                { symbol: '🍒', weight: 40 },
+                { symbol: '🍋', weight: 25 },
+                { symbol: '🍇', weight: 15 },
+                { symbol: '🔔', weight: 10 },
+                { symbol: '⑦', weight: 8 },
+                { symbol: '💎', weight: 2 }
+            ];
+
+            // Tabla de pagos
+            const paytable = {
+                '💎': {4: 1000, 3: 50, 2: 3},
+                '⑦': {4: 500, 3: 25, 2: 2},
+                '🔔': {4: 300, 3: 20, 2: 2},
+                '🍇': {4: 200, 3: 15, 2: 1},
+                '🍋': {4: 100, 3: 10, 2: 1},
+                '🍒': {4: 50, 3: 5, 2: 1}
+            };
+            
+            // Mapeo de líneas de pago
+            const winLinesConfig = {
+                1: [0, 1, 2, 3], // Línea central
+                2: [0, 1, 2, 3], // Simulación visual
+                3: [0, 1, 2, 3], // Simulación visual
+                4: [0, 1, 2, 3], // Simulación visual
+                5: [0, 1, 2, 3], // Simulación visual
+            };
+            
+            // Map active lines to CSS classes
+            const lineClassMap = {
+                1: 'win-line-1',
+                2: 'win-line-2',
+                3: 'win-line-3',
+                4: 'win-line-4',
+                5: 'win-line-5'
+            };
+
+            // Inicializar el juego
+            updateDisplays();
+            initMatrix();
+
+            // Event Listeners
+            lever.addEventListener('click', function() {
+                if (isSpinning) return;
+                
+                if (autoSpinCount > 0) {
+                    autoSpinCount--;
+                    spin();
+                } else if (autoSpinCount === 0) {
+                    resetAutoSpinButtons();
+                    spin();
+                } else {
+                    spin();
+                }
+            });
+
+            betDownBtn.addEventListener('click', function() {
+                if (isSpinning) return;
+                betAmount = Math.max(5, betAmount - 5);
+                updateBetDisplay();
+            });
+
+            betUpBtn.addEventListener('click', function() {
+                if (isSpinning) return;
+                betAmount = Math.min(100, betAmount + 5);
+                updateBetDisplay();
+            });
+
+            paytableToggle.addEventListener('click', function() {
+                paytablePanel.style.display = paytablePanel.style.display === 'block' ? 'none' : 'block';
+                paytableToggle.textContent = paytablePanel.style.display === 'block' ? 'OCULTAR TABLA' : 'VER TABLA DE PAGOS';
+            });
+
+            autoSpin5Btn.addEventListener('click', function() {
+                if (isSpinning) return;
+                resetAutoSpinButtons();
+                autoSpin5Btn.classList.add('active');
+                autoSpinCount = 5;
+                messageDisplay.textContent = 'AUTO SPIN x5 ACTIVADO';
+                spin();
+            });
+
+            autoSpin10Btn.addEventListener('click', function() {
+                if (isSpinning) return;
+                resetAutoSpinButtons();
+                autoSpin10Btn.classList.add('active');
+                autoSpinCount = 10;
+                messageDisplay.textContent = 'AUTO SPIN x10 ACTIVADO';
+                spin();
+            });
+
+            autoSpin25Btn.addEventListener('click', function() {
+                if (isSpinning) return;
+                resetAutoSpinButtons();
+                autoSpin25Btn.classList.add('active');
+                autoSpinCount = 25;
+                messageDisplay.textContent = 'AUTO SPIN x25 ACTIVADO';
+                spin();
+            });
+
+            lineButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (isSpinning) return;
+                    const line = parseInt(this.dataset.line);
+                    
+                    if (activeLines.includes(line)) {
+                        activeLines = activeLines.filter(l => l !== line);
+                        this.classList.remove('active');
+                    } else {
+                        activeLines.push(line);
+                        this.classList.add('active');
+                    }
+                    
+                    if (activeLines.length === 0) {
+                        messageDisplay.textContent = '¡SELECCIONA AL MENOS UNA LÍNEA!';
+                        activeLines.push(1);
+                        lineButtons[0].classList.add('active');
+                    } else {
+                        messageDisplay.textContent = `LÍNEAS ACTIVAS: ${activeLines.join(', ')}`;
+                    }
+                    updateBetDisplay();
+                });
+            });
+            
+            // Gold particle effect on mouse move
+            document.addEventListener('mousemove', function(e) {
+                const particle = document.createElement('div');
+                particle.className = 'gold-particle';
+                particle.style.left = `${e.clientX}px`;
+                particle.style.top = `${e.clientY}px`;
+                
+                const size = Math.random() * 5 + 3;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                const x = (Math.random() - 0.5) * 200;
+                const y = (Math.random() - 0.5) * 200;
+                particle.style.setProperty('--x', `${x}px`);
+                particle.style.setProperty('--y', `${y}px`);
+                
+                goldParticlesContainer.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 2000);
+            });
+
+            // Funciones del juego
+            function spin() {
+                const totalBet = betAmount * activeLines.length;
+                if (credits < totalBet) {
+                    messageDisplay.textContent = '¡CRÉDITOS INSUFICIENTES!';
+                    isSpinning = false;
+                    resetAutoSpinButtons();
+                    return;
+                }
+
+                isSpinning = true;
+                
+                credits -= totalBet;
+                jackpot += totalBet * jackpotPercentage;
+                updateDisplays();
+                
+                lever.classList.add('pulled');
+                vibrate(200);
+                
+                messageDisplay.textContent = '¡BUENA SUERTE!';
+                messageDisplay.classList.remove('win-animation');
+                
+                winLines.forEach(line => line.style.display = 'none');
+                slots.forEach(slot => {
+                    slot.classList.remove('win');
+                    slot.classList.add('spin-effect');
+                });
+                
+                const results = [];
+                for(let i = 0; i < 4; i++) {
+                    const symbol = getRandomWeightedSymbol();
+                    results.push(symbol);
+                    spinSlot(i, 100 + i * 100, symbol);
+                }
+                
+                setTimeout(function() {
+                    slots.forEach(slot => slot.classList.remove('spin-effect'));
+                    checkResult(results);
+                    lever.classList.remove('pulled');
+                    
+                    if (autoSpinCount > 0 && credits >= totalBet) {
+                        autoSpinCount--;
+                        setTimeout(function() {
+                            spin();
+                        }, 1500);
+                    } else {
+                        resetAutoSpinButtons();
+                    }
+                }, 2000);
+            }
+
+            function getRandomWeightedSymbol() {
+                let random = Math.random();
+                let cumulativeWeight = 0;
+                for (const s of symbols) {
+                    cumulativeWeight += s.weight;
+                    if (random * symbols.reduce((sum, s) => sum + s.weight, 0) < cumulativeWeight) {
+                        return s.symbol;
+                    }
+                }
+                return symbols[symbols.length - 1].symbol;
+            }
+
+            function spinSlot(slotIndex, delay, finalSymbol) {
+                const slot = slots[slotIndex];
+                const duration = 1000 + delay;
+                const startTime = Date.now();
+                
+                function updateSlot() {
+                    const elapsed = Date.now() - startTime;
+                    if (elapsed < duration) {
+                        slot.textContent = getRandomWeightedSymbol();
+                        requestAnimationFrame(updateSlot);
+                    } else {
+                        slot.textContent = finalSymbol;
+                    }
+                }
+                
+                setTimeout(updateSlot, delay);
+            }
+
+            function checkResult(results) {
+                let totalWin = 0;
+                
+                activeLines.forEach(line => {
+                    // This is a simplification. The original code only checks line 1
+                    // For a more advanced version, you would check different combinations
+                    const lineSymbols = results;
+                    const firstSymbol = lineSymbols[0];
+                    let count = 0;
+                    for (let i = 0; i < lineSymbols.length; i++) {
+                        if (lineSymbols[i] === firstSymbol) {
+                            count++;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    if (count >= 2) {
+                        const winMultiplier = paytable[firstSymbol] ? paytable[firstSymbol][count] : 0;
+                        if (winMultiplier > 0) {
+                            totalWin += betAmount * winMultiplier;
+                            // Highlight winning slots
+                            for (let i = 0; i < count; i++) {
+                                slots[i].classList.add('win');
+                            }
+                            // Show the winning line
+                            if (document.getElementById(`win-line-${line}`)) {
+                                document.getElementById(`win-line-${line}`).style.display = 'block';
+                            }
+                        }
+                    }
+                    
+                    if (firstSymbol === '💎' && count === 4) {
+                        totalWin += jackpot;
+                        jackpot = 10000;
+                        showJackpotAnimation();
+                        vibrate(500);
+                    }
+                });
+
+
+                if (totalWin > 0) {
+                    credits += totalWin;
+                    lastWin = totalWin;
+                    
+                    messageDisplay.textContent = `¡GANASTE ${totalWin} CRÉDITOS! 💰`;
+                    messageDisplay.classList.add('win-animation');
+                    
+                } else {
+                    messageDisplay.textContent = '¡INTÉNTALO DE NUEVO! 🎲';
+                    lastWin = 0;
+                }
+                
+                isSpinning = false;
+                updateDisplays();
+            }
+
+            function showJackpotAnimation() {
+                jackpotAnimation.style.opacity = '1';
+                jackpotAnimation.style.pointerEvents = 'all';
+                
+                setTimeout(function() {
+                    jackpotAnimation.style.opacity = '0';
+                    jackpotAnimation.style.pointerEvents = 'none';
+                }, 3000);
+            }
+
+            function updateDisplays() {
+                creditsDisplay.textContent = credits;
+                betDisplay.textContent = betAmount * activeLines.length;
+                lastWinDisplay.textContent = lastWin;
+                jackpotDisplay.textContent = Math.round(jackpot);
+            }
+
+            function updateBetDisplay() {
+                betValue.textContent = betAmount;
+                betDisplay.textContent = betAmount * activeLines.length;
+            }
+
+            function resetAutoSpinButtons() {
+                autoSpin5Btn.classList.remove('active');
+                autoSpin10Btn.classList.remove('active');
+                autoSpin25Btn.classList.remove('active');
+                autoSpinCount = -1;
+            }
+            
+            // Función de vibración para móviles
+            function vibrate(duration) {
+                if ('vibrate' in navigator) {
+                    navigator.vibrate(duration);
+                }
+            }
+            
+            // Matrix Effect Logic
+            function initMatrix() {
+                const c = matrixCanvas;
+                const ctx = c.getContext('2d');
+                
+                c.width = window.innerWidth;
+                c.height = window.innerHeight;
+                
+                const matrixChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*()_+{}[]:;<,>.?/|";
+                const columns = c.width / 20;
+                const drops = [];
+                for (let i = 0; i < columns; i++) {
+                    drops[i] = 1;
+                }
+                
+                function drawMatrix() {
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                    ctx.fillRect(0, 0, c.width, c.height);
+                    
+                    ctx.fillStyle = 'var(--matrix-blue)';
+                    ctx.font = '20px Lato';
+                    
+                    for (let i = 0; i < drops.length; i++) {
+                        const text = matrixChars.charAt(Math.floor(Math.random() * matrixChars.length));
+                        ctx.fillText(text, i * 20, drops[i] * 20);
+                        
+                        if (drops[i] * 20 > c.height && Math.random() > 0.975) {
+                            drops[i] = 0;
+                        }
+                        
+                        drops[i]++;
+                    }
+                }
+                setInterval(drawMatrix, 33);
+                
+                window.addEventListener('resize', () => {
+                    c.width = window.innerWidth;
+                    c.height = window.innerHeight;
+                    drops.length = c.width / 20;
+                    for (let i = 0; i < drops.length; i++) {
+                        drops[i] = 1;
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
