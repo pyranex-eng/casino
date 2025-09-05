@@ -3,111 +3,345 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CYBERPUNK SLOTS - Redirección</title>
-    <script>
-        // Redirección con JavaScript después de 1 segundo
-        setTimeout(function() {
-            window.location.href = "Casino.html";
-        }, 1000);
-    </script>
+    <title>Bienvenido Azar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background-color: #0A0A16;
-            color: white;
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        * {
             margin: 0;
-            overflow: hidden;
-            background-image: 
-                linear-gradient(rgba(0, 180, 255, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 180, 255, 0.15) 1px, transparent 1px);
-            background-size: 30px 30px;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        .redirect-container {
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
             text-align: center;
-            padding: 30px;
-            border: 2px solid #FFD700;
-            border-radius: 15px;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-            background-color: rgba(15, 15, 35, 0.9);
-            max-width: 500px;
-            width: 90%;
+            margin-bottom: 3rem;
+            position: relative;
         }
         
         h1 {
-            color: #FFD700;
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #FFD700, 0 0 20px #FFD700;
-            margin-bottom: 20px;
-            font-size: 2.5rem;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #00dbde, #fc00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            animation: pulse 3s infinite alternate;
         }
         
-        p {
-            margin-bottom: 25px;
+        .subtitle {
             font-size: 1.2rem;
-            color: #00B4FF;
+            opacity: 0.8;
+            margin-bottom: 2rem;
         }
         
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .portal-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            z-index: -1;
+            background: linear-gradient(45deg, #00dbde, #fc00ff, #00dbde);
+            background-size: 400%;
+            border-radius: 15px;
+            animation: glowing 20s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .portal-card:hover::before {
+            opacity: 1;
+        }
+        
+        .portal-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .icon-wrapper {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 50%;
-            border-top: 4px solid #FFD700;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 25px auto;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .icon-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 110%;
+            height: 110%;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top: 2px solid #00dbde;
+            border-bottom: 2px solid #fc00ff;
+            animation: spin 3s linear infinite;
+        }
+        
+        .portal-card i {
+            font-size: 3rem;
+            background: linear-gradient(to right, #00dbde, #fc00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .portal-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        
+        .portal-card p {
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #fc00ff, #00dbde);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            opacity: 1;
+        }
+        
+        .btn:hover {
+            box-shadow: 0 0 20px rgba(0, 219, 222, 0.5);
+            transform: translateY(-3px);
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 5rem;
+            padding: 2rem;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        @keyframes pulse {
+            0% {
+                text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            }
+            100% {
+                text-shadow: 0 0 25px rgba(255, 255, 255, 0.4), 0 0 35px rgba(0, 219, 222, 0.4);
+            }
         }
         
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
         
-        .manual-link {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 24px;
-            background-color: transparent;
-            color: #00B4FF;
-            text-decoration: none;
-            border: 1px solid #00B4FF;
-            border-radius: 5px;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 5px #00B4FF;
+        @keyframes glowing {
+            0% {
+                background-position: 0 0;
+            }
+            50% {
+                background-position: 400% 0;
+            }
+            100% {
+                background-position: 0 0;
+            }
         }
         
-        .manual-link:hover {
-            background-color: #00B4FF;
-            color: black;
-            box-shadow: 0 0 15px #00B4FF;
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0.3;
+            }
+            25% {
+                transform: translateY(-50px) translateX(50px) rotate(90deg);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateY(-100px) translateX(0) rotate(180deg);
+                opacity: 0.3;
+            }
+            75% {
+                transform: translateY(-50px) translateX(-50px) rotate(270deg);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(0) translateX(0) rotate(360deg);
+                opacity: 0.3;
+            }
         }
         
-        .error-info {
-            margin-top: 25px;
-            padding: 15px;
-            background-color: rgba(255, 0, 0, 0.1);
-            border: 1px solid rgba(255, 0, 0, 0.3);
-            border-radius: 5px;
-            font-size: 0.9rem;
-            color: #FF6666;
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .portal-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="redirect-container">
-        <h1>CYBERPUNK SLOTS 🎰</h1>
-        <p>Redirigiendo a la experiencia de juego...</p>
-        <div class="spinner"></div>
-        <p>Si la redirección automática no funciona, haz clic en el siguiente enlace:</p>
-        <a href="Casino.html" class="manual-link">Acceder a CYBERPUNK SLOTS</a>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <header>
+            <h1>PORTAL AZAR</h1>
+            <p class="subtitle">Selecciona tu destino con estilo</p>
+        </header>
         
-        <div class="error-info">
-            <p>Si continúas experimentando problemas, contacta al administrador del sitio.</p>
+        <div class="portal-grid">
+            <div class="portal-card" onclick="window.location.href='CYBERPUNK SLOTS.html'">
+                <div class="icon-wrapper">
+                    <i class="fas fa-dice"></i>
+                </div>
+                <h2>Cyberpunk slots</h2>
+                <p>Experimenta la emoción de los juegos de azar en un entorno elegante y futurista.</p>
+                <a href="Casino.html" class="btn">Ingresar</a>
+            </div>
+            
+            <div class="portal-card" onclick="window.location.href='Cactus Lucky.html'">
+                <div class="icon-wrapper">
+                    <i class="fas fa-cactus"></i>
+                </div>
+                <h2>Cactus Lucky</h2>
+                <p>Disfruta de la suerte del desierto con un toque moderno y sofisticado.</p>
+                <a href="Cactus Lucky.html" class="btn">Ingresar</a>
+            </div>
+            
+            <div class="portal-card" onclick="window.location.href='Casino.html'">
+                <div class="icon-wrapper">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h2>Loteria de oro</h2>
+                <p>Un viaje digital a la tradición mexicana con un giro tecnológico y vibrante.</p>
+                <a href="https://pyranex-eng.github.io/loteriamexicana/Casino.html" class="btn">Ingresar</a>
+            </div>
         </div>
     </div>
+    
+    <footer>
+        <p>© 2023 Portal Futurista - Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        // Crear partículas flotantes
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Tamaño aleatorio entre 5 y 15px
+                const size = Math.random() * 10 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Posición aleatoria
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                
+                // Retraso de animación aleatorio
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+            
+            // Efecto de sonido al pasar el cursor sobre las tarjetas
+            const cards = document.querySelectorAll('.portal-card');
+            const hoverSound = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQ');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    // Simular un sonido suave (en una implementación real, usaría un archivo de sonido)
+                    hoverSound.play().catch(e => {});
+                });
+            });
+        });
+    </script>
 </body>
 </html>
