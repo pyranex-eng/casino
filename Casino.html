@@ -775,7 +775,65 @@
                 transform: translate(var(--tx), var(--ty));
             }
         }
+        
+        /* New Styles for Cursor and Jackpot Particles */
+        .cursor-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--premium-gold);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.5s ease-out;
+            box-shadow: 0 0 5px var(--premium-gold);
+            z-index: 10;
+        }
 
+        .jackpot-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--premium-gold);
+            box-shadow: 0 0 15px var(--premium-gold);
+            pointer-events: none;
+            z-index: 101;
+            animation: firework 1s ease-out forwards;
+        }
+
+        @keyframes firework {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--endX), var(--endY)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .confetti-particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 101;
+            animation: confetti-fall 2s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--endX), var(--endY)) rotate(720deg) scale(0);
+                opacity: 0;
+            }
+        }
+        
         .gold-diamond {
             position: absolute;
             width: 20px;
@@ -813,7 +871,7 @@
         }
 
         .slot-reel.spinning {
-            animation: spin-reel 1.5s linear infinite;
+            animation: spin-reel .1s linear infinite;
         }
 
         .slot-reel.stop {
@@ -1042,6 +1100,7 @@
     <audio id="spinSound" src="assets/spin_sound.mp3" preload="auto"></audio>
     <audio id="winSound" src="assets/win_sound.mp3" preload="auto"></audio>
     <audio id="loseSound" src="assets/lose_sound.mp3" preload="auto"></audio>
+    <audio id="jackpotSound" src="assets/jackpot_sound.mp3" preload="auto"></audio>
 
     <div class="mexican-pattern"></div>
     <div class="gold-dust"></div>
@@ -1062,7 +1121,7 @@
             <div class="stats-panel">
                 <div class="credit-display">
                     <span>Créditos</span>
-                    <span id="credits">1000</span>
+                    <span id="credits">5000</span>
                 </div>
                 <div class="bet-display">
                     <span>Apuesta</span>
@@ -1187,7 +1246,7 @@
 
         const BET_OPTIONS = [10, 20, 50, 100, 200];
         
-        let credits = 1000;
+        let credits = 5000;
         let betAmount = 10;
         let winAmount = 0;
         let activeLines = 1;
@@ -1213,6 +1272,7 @@
         const spinSound = document.getElementById('spinSound');
         const winSound = document.getElementById('winSound');
         const loseSound = document.getElementById('loseSound');
+        const jackpotSound = document.getElementById('jackpotSound');
         const gameTitle = document.getElementById('gameTitle');
         const marqueeText = document.getElementById('marqueeText');
 
@@ -1252,6 +1312,10 @@
                     }
                 });
             });
+
+            document.addEventListener('mousemove', (e) => {
+                createCursorParticle(e.clientX, e.clientY);
+            });
         }
 
         function updateDisplays() {
@@ -1265,7 +1329,6 @@
             slots.forEach(slot => {
                 const reel = slot.querySelector('.slot-reel');
                 reel.innerHTML = '';
-                // Add a few blank items to create a smooth stopping effect
                 const blankItem = document.createElement('div');
                 blankItem.classList.add('reel-item');
                 blankItem.style.backgroundColor = 'transparent';
@@ -1309,11 +1372,9 @@
                 reel.classList.remove('stop');
                 reel.classList.add('spinning');
 
-                // Clear existing items and re-populate to get a fresh feel
                 reel.innerHTML = '';
                 populateReelItems(reel);
 
-                // Add the final card to the end of the reel for a smooth stop
                 const finalItem = document.createElement('div');
                 finalItem.classList.add('reel-item');
                 finalItem.style.backgroundImage = `url('${finalCard.image}')`;
@@ -1329,7 +1390,7 @@
                     const stopPosition = (reel.children.length - 1) * -slot.offsetHeight;
                     reel.style.transform = `translateY(${stopPosition}px)`;
                 });
-            }, 1500);
+            }, 2200);
 
             setTimeout(() => {
                 checkWin(finalCards);
@@ -1340,7 +1401,7 @@
                     autoSpinCount--;
                     updateAutoSpinUI();
                     if (autoSpinCount > 0) {
-                        setTimeout(startSpin, 2500); // Delay for the next auto-spin
+                        setTimeout(startSpin, 2500); 
                     } else {
                         isAutoSpinning = false;
                         showMessage("Auto-spin terminado.");
@@ -1353,7 +1414,6 @@
         }
 
         function populateReelItems(reel) {
-            // Add a few random items before the final one for visual effect
             for (let i = 0; i < 30; i++) {
                 const randomIndex = Math.floor(Math.random() * loteriaCards.length);
                 const card = loteriaCards[randomIndex];
@@ -1434,6 +1494,8 @@
 
                 if (totalWin >= betAmount * 50) {
                     showJackpotAnimation();
+                    createJackpotParticles();
+                    jackpotSound.play();
                 }
             } else {
                 winAmount = 0;
@@ -1641,6 +1703,76 @@
                 diamond.style.animationDelay = `${Math.random() * 5}s`;
                 diamond.style.transform = `rotate(${Math.random() * 360}deg)`;
                 container.appendChild(diamond);
+            }
+        }
+
+        // New functions for cursor and jackpot particles
+        function createCursorParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.classList.add('cursor-particle');
+            particle.style.left = `${x}px`;
+            particle.style.top = `${y}px`;
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.style.opacity = 1;
+                particle.style.transform = 'scale(1)';
+            }, 10);
+
+            setTimeout(() => {
+                particle.style.opacity = 0;
+                particle.style.transform = 'scale(0)';
+            }, 500);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 1000);
+        }
+
+        function createJackpotParticles() {
+            const numParticles = 100;
+            const colors = ['#FFD700', '#FFC400', '#FFFFFF'];
+            
+            // Create firework effect from the center
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('jackpot-particle');
+                
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 400 + 50;
+                const endX = Math.cos(angle) * distance;
+                const endY = Math.sin(angle) * distance;
+
+                particle.style.left = `${window.innerWidth / 2}px`;
+                particle.style.top = `${window.innerHeight / 2}px`;
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.setProperty('--endX', `${endX}px`);
+                particle.style.setProperty('--endY', `${endY}px`);
+                particle.style.animationDelay = `${Math.random() * 0.5}s`;
+                
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 2000);
+            }
+
+            // Create confetti effect from the top
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti-particle');
+                
+                const startX = Math.random() * window.innerWidth;
+                const startY = -20;
+                const endX = startX + (Math.random() - 0.5) * 200;
+                const endY = window.innerHeight + 20;
+
+                confetti.style.left = `${startX}px`;
+                confetti.style.top = `${startY}px`;
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.setProperty('--endX', `${endX}px`);
+                confetti.style.setProperty('--endY', `${endY}px`);
+                confetti.style.animationDelay = `${Math.random() * 1.5}s`;
+
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 2500);
             }
         }
 
